@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  postgres-stats:
+    container_name: stats-your-life-pg
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stats-your-life
+    restart: on-failure
+    ports:
+      - 5433:5432

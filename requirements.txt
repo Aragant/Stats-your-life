@@ -1,0 +1,8 @@
+fastapi
+fastapi-users[sqlalchemy]
+uvicorn[standard]
+asyncpg
+sqlalchemy
+alembic
+psycopg2-binary
+sqladmin
