@@ -10,7 +10,7 @@ class Task(Base):
     name = Column(String(length=100), nullable=False)
     validated = Column(Boolean, default=False, nullable=False)
     priority = Column(Integer, default=1, nullable=False)
-    deadline = Column(DateTime, nullable=True)
+    deadline = Column(DateTime(timezone=True), nullable=True)
 
     # FK vers l’utilisateur
     owner_id = Column(ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
