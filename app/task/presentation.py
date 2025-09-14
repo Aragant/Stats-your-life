@@ -23,7 +23,6 @@ async def get_task(task_id: int, user: User = Depends(current_active_user)):
 
 @router.post("/", response_model=TaskRead)
 async def create_task(task: TaskCreate, user: User = Depends(current_active_user)):
-    print(user)
     return await task_service.create_task(task, user.id)
 
 @router.put("/{task_id}", response_model=TaskRead)

@@ -10,8 +10,10 @@ from alembic import context
 from app.core.config import settings
 from app.core.db import Base
 
+
 from app.task.model import Task
 from app.user.model import User
+from app.routine.model import Routine
 
 load_dotenv()
 
@@ -24,7 +26,6 @@ if config.config_file_name is not None:
 
 # C’est ça que Alembic utilise pour autogenerate
 target_metadata = Base.metadata
-
 
 
 

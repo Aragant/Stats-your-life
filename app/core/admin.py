@@ -3,6 +3,7 @@ from sqladmin import Admin, ModelView
 from app.core.db import engine
 from app.user.model import User
 from app.task.model import Task
+from app.routine.model import Routine
 from fastapi_users.password import PasswordHelper
 from fastapi import FastAPI
 
@@ -24,9 +25,15 @@ def init_admin(app: FastAPI):
     # --- TaskAdmin ---
     class TaskAdmin(ModelView, model=Task):
         column_list = [Task.id, Task.name, Task.validated, Task.deadline, Task.owner_id]
+        
+    class RoutineAdmin(ModelView, model=Routine):
+        column_list = [Routine.id, Routine.name, Routine.owner_id]
+        
+    
 
     # Ajoute les vues à l'admin
     admin.add_view(UserAdmin)
     admin.add_view(TaskAdmin)
+    admin.add_view(RoutineAdmin)
 
     return admin

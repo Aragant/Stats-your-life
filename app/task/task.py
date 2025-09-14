@@ -1,5 +1,4 @@
 from sqlalchemy.future import select
-from sqlalchemy import update, delete
 from app.core.db import async_session_maker
 from app.task.model import Task
 from app.task.schema import TaskCreate
