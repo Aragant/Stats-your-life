@@ -15,6 +15,7 @@ from app.task.model import Task
 from app.user.model import User
 from app.routine.model import Routine
 from app.timer.model import Timer
+from app.movement.model import Movement
 
 load_dotenv()
 
