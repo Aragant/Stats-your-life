@@ -14,6 +14,7 @@ from app.core.db import Base
 from app.task.model import Task
 from app.user.model import User
 from app.routine.model import Routine
+from app.timer.model import Timer
 
 load_dotenv()
 
