@@ -1,12 +1,14 @@
 # app/core/admin.py
 from sqladmin import Admin, ModelView
 from app.core.db import engine
+from fastapi_users.password import PasswordHelper
+from fastapi import FastAPI
+
 from app.user.model import User
 from app.task.model import Task
 from app.routine.model import Routine
 from app.timer.model import Timer
-from fastapi_users.password import PasswordHelper
-from fastapi import FastAPI
+from app.movement.model import Movement
 
 
 def init_admin(app: FastAPI):
@@ -32,6 +34,9 @@ def init_admin(app: FastAPI):
         
     class TimerAdmin(ModelView, model=Timer):
         column_list = [Timer.id, Timer.name, Timer.owner_id]
+        
+    class MovementAdmin(ModelView, model=Movement):
+        column_list = [Movement.id, Movement.name, Movement.owner_id]
         
     
 
