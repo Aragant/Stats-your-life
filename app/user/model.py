@@ -23,6 +23,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     routines = relationship("Routine", back_populates="owner", cascade="all, delete-orphan")
     timers = relationship("Timer", back_populates="owner", cascade="all, delete-orphan")
     movements = relationship("Movement", back_populates="owner", cascade="all, delete-orphan")
+    sessions = relationship("Session", back_populates="owner", cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"User(id={self.id}, email={self.email}, name={self.name}, last_name={self.last_name})"

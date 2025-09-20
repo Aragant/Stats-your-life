@@ -16,6 +16,7 @@ from app.user.model import User
 from app.routine.model import Routine
 from app.timer.model import Timer
 from app.movement.model import Movement
+from app.session.model import Session, Exercise, Set
 
 load_dotenv()
 
