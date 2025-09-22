@@ -8,7 +8,7 @@ router = APIRouter()
 # Route pour JWT Auth
 router.include_router(
     fastapi_users.get_auth_router(auth_backend),
-    prefix="/jwt",
+    prefix="/cookie",
     tags=["auth"]
 )
 

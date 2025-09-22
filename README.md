@@ -13,7 +13,7 @@ FastAPI API to manage users and tasks with an admin panel via SQLAdmin.
 1. **Clone the project:**
 
 ```bash
-git clone https://github.com/ton-utilisateur/stats-your-life-fastapi.git
+git https://github.com/Aragant/Stats-your-life
 cd stats-your-life-fastapi/stats-your-life-api
 ```
 
@@ -36,7 +36,7 @@ Edit the .env file (or app/core/config.py) with your database configuration:
 
 ```bash
 DATABASE_URL=postgresql+asyncpg://user:password@localhost:5432/mydb
-SECRET_KEY=secret_key
+SECRET=secret_key
 ```
 
 ### Database and Migrations
