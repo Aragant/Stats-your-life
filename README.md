@@ -50,6 +50,21 @@ alembic revision --autogenerate -m "Initial migration"
 alembic upgrade head
 ```
 
+### Certificate and sub domain
+1. **Generate certificate :**
+
+In a "certs" folder at the project root.
+```bash
+mkcert api.local.stats
+```
+2. **Add hosts :**
+
+Linux: /etc/hosts
+
+Windows: C:\Windows\System32\drivers\etc\hosts
+```bash
+ 127.0.0.1 api.local.stats
+```
 ## Run the Application
 ```bash
 python main.py
