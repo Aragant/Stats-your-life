@@ -8,11 +8,11 @@ from app.routine.schema import RoutineCreate
 
 class RoutineService:
     def __init__(self):
-        self.session = async_session_maker()
+        self.session_maker = async_session_maker()
         
 
     async def create_routine(self, routine: RoutineCreate, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             new_routine = Routine(**routine.model_dump(), owner_id=user_id)
             session.add(new_routine)
             await session.commit()
@@ -21,7 +21,7 @@ class RoutineService:
         
 
     async def get_routines(self, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Routine).filter(Routine.owner_id == user_id)
             )
@@ -29,7 +29,7 @@ class RoutineService:
         
 
     async def get_routine(self, routine_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Routine).filter(Routine.id == routine_id, Routine.owner_id == user_id)
             )
@@ -37,7 +37,7 @@ class RoutineService:
         
 
     async def delete_routine(self, routine_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Routine).filter(Routine.id == routine_id, Routine.owner_id == user_id)
             )
@@ -50,7 +50,7 @@ class RoutineService:
         
     
     async def validate_routine(self, routine_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Routine).filter(Routine.id == routine_id, Routine.owner_id == user_id)
             )
@@ -66,7 +66,7 @@ class RoutineService:
         
         
     async def update_routine(self, routine_id: int, routine_data: RoutineCreate, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Routine).where(Routine.id == routine_id, Routine.owner_id == user_id)
             )

@@ -5,10 +5,10 @@ from app.movement.schema import MovementCreate
 
 class MovementService:
     def __init__(self):
-        self.session = async_session_maker()
+        self.session_maker = async_session_maker()
         
     async def create_movement(self, movement: MovementCreate, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             new_movement = Movement(**movement.model_dump(), owner_id=user_id)
             session.add(new_movement)
             await session.commit()
@@ -17,14 +17,14 @@ class MovementService:
         
     
     async def get_movements(self, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Movement).filter(Movement.owner_id == user_id)
             )
             return result.scalars().all()
         
     async def get_movement(self, movement_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Movement).filter(Movement.id == movement_id, Movement.owner_id == user_id)
             )
@@ -32,7 +32,7 @@ class MovementService:
         
         
     async def delete_movement(self, movement_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Movement).filter(Movement.id == movement_id, Movement.owner_id == user_id)
             )
@@ -45,7 +45,7 @@ class MovementService:
         
         
     async def update_movement(self, movement_id: int, movement_data: MovementCreate, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Movement).where(Movement.id == movement_id, Movement.owner_id == user_id)
             )

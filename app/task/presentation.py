@@ -35,3 +35,7 @@ async def update_task_endpoint(task_id: int, task_data: TaskCreate, User: User =
 @router.delete("/{task_id}")
 async def delete_task(task_id: int, user: User = Depends(current_active_user)):
     return await task_service.delete_task(task_id, user.id)
+
+@router.put("/{task_id}/validate")
+async def validate_task(task_id: int, user: User = Depends(current_active_user)):
+    return await task_service.validate_task(task_id, user.id)

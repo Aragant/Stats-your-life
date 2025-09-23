@@ -8,10 +8,10 @@ from app.session.schema import SessionCreate, ExerciseCreate, SetCreate
 
 class SessionService:
     def __init__(self):
-        self.session = async_session_maker()
+        self.session_maker = async_session_maker
 
     async def create_session(self, session: SessionCreate, user_id: str):
-        async with self.session as session_db:
+        async with self.session_maker() as session_db:
             new_session = Session(**session.model_dump(), owner_id=user_id)
             session_db.add(new_session)
             await session_db.commit()
@@ -19,7 +19,7 @@ class SessionService:
             return new_session
 
     async def get_sessions(self, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Session)
                 .options(
@@ -32,7 +32,7 @@ class SessionService:
             return sessions
 
     async def get_session(self, session_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Session).filter(
                     Session.id == session_id, Session.owner_id == user_id
@@ -41,7 +41,7 @@ class SessionService:
             return result.scalars().first()
 
     async def delete_session(self, session_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Session).filter(
                     Session.id == session_id, Session.owner_id == user_id
@@ -57,7 +57,7 @@ class SessionService:
     async def update_session(
         self, session_id: int, session_data: SessionCreate, user_id: str
     ):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Session).where(
                     Session.id == session_id, Session.owner_id == user_id
@@ -74,7 +74,7 @@ class SessionService:
     async def add_exercise(
         self, exercise: ExerciseCreate, session_id: int, user_id: str
     ):
-        async with self.session as session:
+        async with self.session_maker() as session:
             # On charge la session avec tous les exercices + leurs mouvements et sets
             result = await session.execute(
                 select(Session)
@@ -101,7 +101,7 @@ class SessionService:
             return session_to_update
 
     async def delete_exercise(self, exercise_id: int, session_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Exercise).filter(
                     Exercise.id == exercise_id, Exercise.session_id == session_id
@@ -121,7 +121,7 @@ class SessionService:
         session_id: int,
         user_id: str,
     ):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Exercise).where(
                     Exercise.id == exercise_id, Exercise.session_id == session_id
@@ -157,7 +157,7 @@ class SessionService:
     async def add_set(
         self, set: SetCreate, exercise_id: int, session_id: int, user_id: str
     ):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Exercise).where(
                     Exercise.id == exercise_id, Exercise.session_id == session_id
@@ -184,7 +184,7 @@ class SessionService:
             return session_to_return
     
     async def delete_set(self, set_id: int, exercise_id: int, session_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Set).filter(
                     Set.id == set_id, Set.exercise_id == exercise_id
@@ -198,7 +198,7 @@ class SessionService:
             return False
         
     async def update_set(self, set_id: int, set_data: SetCreate, exercise_id: int, session_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Set).where(
                     Set.id == set_id, Set.exercise_id == exercise_id

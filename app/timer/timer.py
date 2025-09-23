@@ -6,10 +6,10 @@ from app.timer.schema import TimerCreate
 
 class TimerService:
     def __init__(self):
-        self.session = async_session_maker()
+        self.session_maker = async_session_maker()
         
     async def create_timer(self, timer: TimerCreate, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             new_timer = Timer(**timer.model_dump(), owner_id=user_id)
             new_timer.custom = False
             
@@ -19,21 +19,21 @@ class TimerService:
             return new_timer
         
     async def get_timers(self, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Timer).filter(Timer.owner_id == user_id)
             )
             return result.scalars().all()
         
     async def get_timer(self, timer_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Timer).filter(Timer.id == timer_id, Timer.owner_id == user_id)
             )
             return result.scalars().first()
         
     async def delete_timer(self, timer_id: int, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Timer).filter(Timer.id == timer_id, Timer.owner_id == user_id)
             )
@@ -46,7 +46,7 @@ class TimerService:
         
     
     async def update_timer(self, timer_id: int, timer_data: TimerCreate, user_id: str):
-        async with self.session as session:
+        async with self.session_maker() as session:
             result = await session.execute(
                 select(Timer).where(Timer.id == timer_id, Timer.owner_id == user_id)
             )
