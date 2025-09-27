@@ -19,7 +19,7 @@ class TaskService:
     async def get_tasks(self, user_id: str):
         async with self.session_maker() as session:
             result = await session.execute(
-                select(Task).filter(Task.owner_id == user_id)
+                select(Task).filter(Task.owner_id == user_id).order_by(Task.validated).order_by(Task.priority).order_by(Task.deadline)
             )
             return result.scalars().all()
 
