@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, Time
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, Time
 from sqlalchemy.orm import relationship
 from app.core.db import Base
 
@@ -7,6 +7,9 @@ class Session(Base):
     __tablename__ = "session"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(length=256), nullable=False)
+    date = Column(String, nullable=False)
+    template = Column(Boolean, nullable=False, default=False)
+    
 
     exercises = relationship(
         "Exercise",
