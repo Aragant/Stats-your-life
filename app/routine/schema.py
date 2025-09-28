@@ -11,7 +11,7 @@ class RoutineRead(BaseModel):
     name: str
     validated: bool
     cooldown_days: int
-    last_validation: datetime
+    last_validation: datetime | None
     strike: int
     
     class Config:

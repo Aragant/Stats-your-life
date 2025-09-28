@@ -29,7 +29,7 @@ async def create_routine(routine: RoutineCreate, user: User = Depends(current_ac
 async def delete_routine(routine_id: int, user: User = Depends(current_active_user)):
     return await routine_service.delete_routine(routine_id, user.id)
 
-@router.put("validate/{routine_id}", response_model=RoutineRead)
+@router.put("/{routine_id}/validate", response_model=RoutineRead)
 async def validate_routine(routine_id: int, user: User = Depends(current_active_user)):
     routine = await routine_service.validate_routine(routine_id, user.id)
     if not routine:
